@@ -1,16 +1,20 @@
 const express = require("express");
+const { ControllerService } = require('../../Interface/controllerService');
 
-class RestfulUser {
+class RestfulUser extends ControllerService {
 	#router = null;
 	
 	constructor(){
-		this.#router = express.Router();
+		super();
 	}
 	
 	get blueprint(){
 		return this.#router;
 	}
-	
+
+	load(){
+		this.#router = express.Router();
+	}
 	get(){
 		this.#router.get("/",(req, res) => {
 			res.send("User");

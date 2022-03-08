@@ -17,10 +17,6 @@ app.use("/api/v1/user", restfulUser.blueprint);
 // 	res.send("List files");
 // });
 
-
-
-
-
 app.listen(5000, 'localhost', () => {
 	console.log("Running in locahost:5000");
 });
