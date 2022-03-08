@@ -1,9 +1,9 @@
-const { RestfulUser } = require("./src/Infrastructure/Controller/restfulApiUser");
+const { restfulUser } = require("./src/Infrastructure/Controller/restfulApiUser");
 const express = require('express');
 const app = express();
 
 
-app.use(RestfulUser.blueprint);
+app.use("/api/v1/user", restfulUser.blueprint);
 
 // app.delete("/api/v1/user", (req, res) => {
 // 	res.send("User profile");

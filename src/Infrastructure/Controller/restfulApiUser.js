@@ -1,6 +1,8 @@
 const express = require("express");
 
-class RestfulApiUser {
+class RestfulUser {
+	#router = null;
+	
 	constructor(){
 		this.#router = express.Router();
 	}
@@ -10,34 +12,34 @@ class RestfulApiUser {
 	}
 	
 	get(){
-		this.#router.get("/api/v1/user",(req, res) => {
+		this.#router.get("/",(req, res) => {
 			res.send("User");
 		});
 
-		this.#router.get("/api/v1/users/list",(req, res) => {
+		this.#router.get("/list",(req, res) => {
 			res.send("Users list");
 		});
 	}
 
 	post(){
-		this.#router.post("/api/v1/user",(req, res) => {
+		this.#router.post("/",(req, res) => {
 			res.send("User post");
 		});
 	}
 
 	delete(){
-		this.#router.delete("/api/v1/user",(req, res) => {
+		this.#router.delete("/",(req, res) => {
 			res.send("User delete");
 		});
 	}
 
 	patch(){
-		this.#router.patch("/api/v1/user",(req, res) => {
+		this.#router.patch("/",(req, res) => {
 			res.send("User updates");
 		});
 	}
 }
 
 module.exports = {
-	RestfulApiUser
+	restfulUser: new RestfulUser()
 };
