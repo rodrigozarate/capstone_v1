@@ -1,13 +1,10 @@
-const http = require('http');
-const port = 3000;
-const host = 'localhost';
+const express = require('express');
+const app = express();
 
-const requestListener = (req, res) => {
-	res.writeHead(200);
-	res.end();
-};
-
-const server = http.createServer(requestListener);
-server.listen(port, host, () => {
-	console.log("Server Running on port: " + port);
+app.get("/", (req, res) => {
+	res.send("hello world");
 })
+
+app.listen(5000, 'locahost', () => {
+	console.log("Running in locahost:5000");
+});
