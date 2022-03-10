@@ -1,12 +1,7 @@
 class ControllerService {
 	constructor(){
-		this.load();
-		this.get();
-		this.delete();
-		this.post();
-		this.patch();
+		
 	}
-
 	get blueprint(){
 		return new Error("Not implement");
 	}

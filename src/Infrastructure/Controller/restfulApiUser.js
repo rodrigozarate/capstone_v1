@@ -6,6 +6,11 @@ class RestfulUser extends ControllerService {
 	
 	constructor(){
 		super();
+		this.load();
+		this.get();
+		this.delete();
+		this.post();
+		this.patch();
 	}
 	
 	get blueprint(){
