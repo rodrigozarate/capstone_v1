@@ -4,7 +4,7 @@ const { ControllerService } = require('../../Interface/controllerService');
 const { mysql } = require('../../Infrastructure/Repository/mysql');
 
 class RestfulUser extends ControllerService {
-	#router = null;
+	// #router = null;
 	
 	constructor(){
 		super();
@@ -16,18 +16,18 @@ class RestfulUser extends ControllerService {
 	}
 	
 	get blueprint(){
-		return this.#router;
+		return this.router;
 	}
 
 	load(){
-		this.#router = express.Router();
+		this.router = express.Router();
 	}
 	get(){
-		this.#router.get("/",(req, res) => {
+		this.router.get("/",(req, res) => {
 			res.send("User");
 		});
 
-		this.#router.get("/list",(req, res) => {
+		this.router.get("/list",(req, res) => {
 			res.send("Users list");
 		});
 	}
@@ -45,13 +45,13 @@ class RestfulUser extends ControllerService {
 	}
 
 	delete(){
-		this.#router.delete("/",(req, res) => {
+		this.router.delete("/",(req, res) => {
 			res.send("User delete");
 		});
 	}
 
 	patch(){
-		this.#router.patch("/",(req, res) => {
+		this.router.patch("/",(req, res) => {
 			res.send("User updates");
 		});
 	}
