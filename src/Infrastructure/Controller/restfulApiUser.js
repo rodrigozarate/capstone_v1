@@ -34,12 +34,12 @@ class RestfulUser extends ControllerService {
 
 	post(){
 		this.#router.post("/",(req, res) => {
-			const { first_name, last_name, email, password, company } = req.body;
+		    const { first_name, last_name, email, password, company } = req.body;
+		    const hashedPassword = await bcrypt.hash(req.body.password);
 			res.send(req.body);
 			// check data from user.
-			
 			// const databaseService = new DatabaseService();
-			// databaseService.initDatabase();	
+			// databaseService.initDatabase();
 			// databaseService.query("SELECT * FROM table");
 		});
 	}
