@@ -33,13 +33,13 @@ CREATE TABLE IF NOT EXISTS SubscriptionRoute (
 );
 
 CREATE TABLE IF NOT EXISTS User(
-    id INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT UNIQUE,
     first_name VARCHAR(45) NOT NULL,
     last_name VARCHAR(45) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    subscription_id INT NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    subscription_id INT,
     company VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(subscription_id) REFERENCES Subscription(id)

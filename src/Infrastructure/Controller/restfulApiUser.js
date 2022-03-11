@@ -1,7 +1,7 @@
 const express = require("express");
 var bcrypt = require('bcryptjs');
 const { ControllerService } = require('../../Interface/controllerService');
-const { DatabaseService } = require('../../Interface/databaseService');
+const { mysql } = require('../../Infrastructure/Repository/mysql');
 
 class RestfulUser extends ControllerService {
 	// #router = null;
@@ -34,13 +34,13 @@ class RestfulUser extends ControllerService {
 
 	post(){
 		this.#router.post("/",(req, res) => {
-		    const { first_name, last_name, email, password, company } = req.body;
-		    const hashedPassword = await bcrypt.hash(req.body.password);
-			res.send(req.body);
-			// check data from user.
-			// const databaseService = new DatabaseService();
-			// databaseService.initDatabase();
-			// databaseService.query("SELECT * FROM table");
+			const { first_name, last_name, email, password, company, phone_number } = req.body;
+			const salt = bcrypt.genSaltSync(10);
+			const passwordHash= bcrypt.hashSync(password, salt);
+		
+			mysql.initDatabase()
+			const status = mysql.createUser(first_name, last_name, email, passwordHash, company, phone_number);
+			res.send('execute');
 		});
 	}
 
