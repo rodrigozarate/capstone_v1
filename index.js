@@ -1,21 +1,17 @@
-const { restfulUser } = require("./src/Infrastructure/Controller/restfulApiUser");
 const express = require('express');
+const bodyParser = require("body-parser");
+const { restfulUser } = require("./src/Infrastructure/Controller/restfulApiUser");
+const { restfulSubscription } = require("./src/Infrastructure/Controller/restfullApiSubscription");
+const { restfulPath } = require("./src/Infrastructure/Controller/restfulApiPath");
 const app = express();
 
 
+app.use(bodyParser.json());
+
 app.use("/api/v1/user", restfulUser.blueprint);
+app.use("/api/v1/subscription", restfulSubscription.blueprint);
+app.use("/api/v1/path", restfulPath.blueprint);
 
-// app.delete("/api/v1/user", (req, res) => {
-// 	res.send("User profile");
-// })
-
-// app.delete("/api/v1/subscription", (req, res) => {
-// 	res.send("User suscription");
-// })
-
-// app.delete("/api/v1/list", (req, res) => {
-// 	res.send("List files");
-// });
 
 app.listen(5000, 'localhost', () => {
 	console.log("Running in locahost:5000");
