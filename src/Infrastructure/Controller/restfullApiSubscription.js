@@ -2,7 +2,7 @@ const express = require("express");
 const { ControllerService } = require('../../Interface/controllerService');
 
 class RestfulSubscription extends ControllerService {
-    #router = null;
+    router = null;
     constructor(){
         super()
         this.load()
@@ -12,37 +12,37 @@ class RestfulSubscription extends ControllerService {
         this.patch()
     }
     load() {
-        this.#router = express.Router();
+        this.router = express.Router();
     }
     
     get blueprint(){
-        return this.#router
+        return this.router
     }
 
     get() {
-        this.#router.get("/", (req, res) => {
+        this.router.get("/", (req, res) => {
             res.send("Subscription");
         });
 
-        this.#router.get("/list", (req, res) => {
+        this.router.get("/list", (req, res) => {
             res.send("Subscription list");
         });
     }
 
     post() {
-        this.#router.post("/", (req, res) => {
+        this.router.post("/", (req, res) => {
             res.send("Subscription post");
         });
     }
 
     delete() {
-        this.#router.delete("/", (req, res) => {
+        this.router.delete("/", (req, res) => {
             res.send("Subscription delete");
         });
     }
 
     patch() {
-        this.#router.patch("/", (req, res) => {
+        this.router.patch("/", (req, res) => {
             res.send("Subscription update");
         });
     }
