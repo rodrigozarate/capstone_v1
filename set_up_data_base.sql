@@ -44,4 +44,3 @@ CREATE TABLE IF NOT EXISTS User(
     PRIMARY KEY (id),
     FOREIGN KEY(subscription_id) REFERENCES Subscription(id)
 );
-

@@ -23,7 +23,7 @@ class RestfulUser extends ControllerService {
 		this.router = express.Router();
 	}
 	get(){
-		this.router.get("/",(req, res) => {
+	    this.router.get("/",(req, res) => {
 
 			// if (req.session.user){
 			// 	res.send({message: "First initialized session please !"});
@@ -53,10 +53,10 @@ class RestfulUser extends ControllerService {
 			});
 			database.end();
 		});
-
-		this.router.get("/list",(req, res) => {
-			res.send("Users list");
-		});
+	    
+	    this.router.get("/list",(req, res) => {
+		res.send("Users list");
+	    });
 	}
 
 	post(){

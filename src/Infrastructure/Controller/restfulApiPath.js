@@ -53,3 +53,4 @@ class RestfulPath extends ControllerService {
 module.exports = {
     restfulPath: new RestfulPath()
 };
+B
