@@ -11,6 +11,16 @@ FLUSH PRIVILEGES;
 
 USE alasdb;
 
+CREATE TABLE IF NOT EXISTS Admin (
+    id INT AUTO_INCREMENT,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO Admin(id, email, password)
+VALUES('1', 'josepadre30@gmail.com', '$2a$10$wL5NUTxiCK2kB1uRTeTPZeOk193INFW8vcW/Ee/LHZZ40m3hsst4i');
+
 CREATE TABLE IF NOT EXISTS Route (
     id INT AUTO_INCREMENT,
     path VARCHAR(100) NOT NULL,
