@@ -23,7 +23,11 @@ class RestfulUser extends ControllerService {
 		this.router = express.Router();
 	}
 	get(){
-		this.#router.get("/",(req, res) => {
+		this.router.get("/",(req, res) => {
+
+			// if (req.session.user){
+			// 	res.send({message: "First initialized session please !"});
+			// }
 			const { email, password } = req.body;
 			const database = mysql.initDatabase();
 			const query = 'SELECT * FROM User WHERE email = ?';
@@ -35,15 +39,15 @@ class RestfulUser extends ControllerService {
 					}
 					throw (err);
 				} else {
-					console.log(result.length != 0);
 					if (result.length != 0){
 						if (bcrypt.compareSync(password, result[0].password)) {
+							req.session.user = result[0];
 							res.send(result[0]);
 						} else {
 							res.send({ message: "Password is incorrect" });
 						}
 					} else {
-						res.send({ message: "Password is incorrect" });
+						res.send({ message: "Email is incorrect" });
 					}
 				}
 			});
@@ -56,7 +60,7 @@ class RestfulUser extends ControllerService {
 	}
 
 	post(){
-		this.#router.post("/",(req, res) => {
+		this.router.post("/",(req, res) => {
 			const { first_name, last_name, email, password, company, phone_number } = req.body;
 			const salt = bcrypt.genSaltSync(10);
 			const passwordHash = bcrypt.hashSync(password, salt);
@@ -65,7 +69,6 @@ class RestfulUser extends ControllerService {
 			const query = 'INSERT INTO User(first_name, last_name, email, password, company, phone_number) VALUES (?, ?, ?, ?, ?, ?)';
 			database.query(query, [first_name, last_name, email, passwordHash, company, phone_number], (err, result) => {
 				if (err) {
-					console.log(err);
 					if (err.code === "ER_DUP_ENTRY"){
 						res.status(500);
 						res.send({message: "Email field is duplicate"})
@@ -84,13 +87,42 @@ class RestfulUser extends ControllerService {
 
 	delete(){
 		this.router.delete("/",(req, res) => {
-			res.send("User delete");
+			console.log(req.session.user)
+			
+			const database = mysql.initDatabase();
+			const query = 'DELETE FROM User WHERE id = ?';
+			database.query(query, [req.session.user.id], (err, result) => {
+				if (err) {
+					throw (err);
+				} else {
+					// redirect
+					res.status(200);
+					res.send({ message: "Delete Success !" });
+				}
+			});
+			database.end();
 		});
 	}
 
 	patch(){
 		this.router.patch("/",(req, res) => {
-			res.send("User updates");
+			const {first_name, last_name, email, company, phone_number} = req.body;
+			const query = 'UPDATE User SET first_name = ?, last_name = ?, email = ?, company = ?, phone_number = ? WHERE id = ?';
+			const database = mysql.initDatabase();
+			database.query(query, [first_name, last_name , email, company, phone_number, req.session.user.id], (err, result) => {
+				if (err) {
+					throw (err);
+				} else {
+					res.status(200);
+					res.send({ message: "Update Success !" });
+				}
+			});
+			database.end();
+			req.session.user.first_name = first_name;
+			req.session.user.last_name = last_name;
+			req.session.user.email = email;
+			req.session.user.company = company;
+			req.session.user.phone_number = phone_number;
 		});
 	}
 }
