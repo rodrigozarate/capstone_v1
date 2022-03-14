@@ -1,5 +1,5 @@
 const express = require("express");
-var bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { ControllerService } = require('../../Interface/controllerService');
 const { mysql } = require('../../Infrastructure/Repository/mysql');
 
@@ -24,7 +24,30 @@ class RestfulUser extends ControllerService {
 	}
 	get(){
 		this.#router.get("/",(req, res) => {
-			res.send("User");
+			const { email, password } = req.body;
+			const database = mysql.initDatabase();
+			const query = 'SELECT * FROM User WHERE email = ?';
+			database.query(query, [email], (err, result) => {
+				if (err) {
+					if (err.code) {
+						res.status(500);
+						res.send(err);
+					}
+					throw (err);
+				} else {
+					console.log(result.length != 0);
+					if (result.length != 0){
+						if (bcrypt.compareSync(password, result[0].password)) {
+							res.send(result[0]);
+						} else {
+							res.send({ message: "Password is incorrect" });
+						}
+					} else {
+						res.send({ message: "Password is incorrect" });
+					}
+				}
+			});
+			database.end();
 		});
 
 		this.#router.get("/list",(req, res) => {
@@ -36,11 +59,26 @@ class RestfulUser extends ControllerService {
 		this.#router.post("/",(req, res) => {
 			const { first_name, last_name, email, password, company, phone_number } = req.body;
 			const salt = bcrypt.genSaltSync(10);
-			const passwordHash= bcrypt.hashSync(password, salt);
+			const passwordHash = bcrypt.hashSync(password, salt);
 		
-			mysql.initDatabase()
-			const status = mysql.createUser(first_name, last_name, email, passwordHash, company, phone_number);
-			res.send('execute');
+			const database = mysql.initDatabase();
+			const query = 'INSERT INTO User(first_name, last_name, email, password, company, phone_number) VALUES (?, ?, ?, ?, ?, ?)';
+			database.query(query, [first_name, last_name, email, passwordHash, company, phone_number], (err, result) => {
+				if (err) {
+					console.log(err);
+					if (err.code === "ER_DUP_ENTRY"){
+						res.status(500);
+						res.send({message: "Email field is duplicate"})
+					}
+					if (err.code === "ER_BAD_NULL_ERROR"){
+						res.status(500);
+						res.send({message: "There are a column in blank"});
+					}
+				} else {
+					res.send({ message: "Register Success !"});
+				}
+			});
+			database.end();
 		});
 	}
 
