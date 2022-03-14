@@ -56,25 +56,26 @@ class RestfulAdmin extends ControllerService {
         });
     }
 
-    // delete() {
-    //     this.router.delete("/", (req, res) => {
-    //         console.log(req.session.user)
-
-    //         const database = mysql.initDatabase();
-    //         const query = 'DELETE FROM User WHERE id = ?';
-    //         database.query(query, [req.session.user.id], (err, result) => {
-    //             if (err) {
-    //                 throw (err);
-    //             } else {
-    //                 // redirect
-    //                 res.status(200);
-    //                 res.send({ message: "Delete Success !" });
-    //             }
-    //         });
-    //         database.end();
-    //     });
-    // }
-
+    delete() {
+        this.router.delete("/", (req, res) => {
+            console.log(req.session.user)
+            const { id } = req.body
+	    
+            const database = mysql.initDatabase();
+            const query = 'DELETE FROM User WHERE id = ?';
+            database.query(query, [id], (err, result) => {
+                if (err) {
+                    throw (err);
+                } else {
+                    // redirect
+                    res.status(200);
+                    res.send({ message: "Delete Success !" });
+                }
+            });
+            database.end();
+        });
+    }
+    
     patch() {
         this.router.patch("/", (req, res) => {
             const { id, first_name, last_name, email, company, phone_number } = req.body;

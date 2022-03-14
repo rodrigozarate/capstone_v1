@@ -21,6 +21,25 @@ class RestfulPath extends ControllerService {
 
     get() {
         this.router.get("/", (req, res) => {
+	    // if (req.session.user){
+	    // res.send({message: "First initialized session please !"});
+	    // }
+	    const { subscription_id } = req.session.user;
+	    const database = mysql.initDatabase();
+	    const query = 'SELECT * FROM SubscriptionRoute WHERE subscription_id = ?';
+	    database.query(query, [subscription_id], (err, result) => {
+			    if (err) {
+				if (err.code) {
+				    res.status(500);
+				    res.send(err);
+				}
+				throw (err);
+			    } else {
+				res.send(result);
+			    }
+			});
+	    database.end();
+
             res.send("Path");
         });
 
