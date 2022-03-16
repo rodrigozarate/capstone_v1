@@ -43,28 +43,28 @@ class RestfulPath extends ControllerService {
             res.send("Path");
         });
 
-        this.router.get("/list", (req, res) => {
-            res.send("Path list");
-        });
+        // this.router.get("/list", (req, res) => {
+        //     res.send("Path list");
+        // });
     }
 
-    post() {
-        this.router.post("/", (req, res) => {
-            res.send("Path post");
-        });
-    }
+    // post() {
+    //     this.router.post("/", (req, res) => {
+    //         res.send("Path post");
+    //     });
+    // }
 
-    delete() {
-        this.router.delete("/", (req, res) => {
-            res.send("Path delete");
-        });
-    }
+    // delete() {
+    //     this.router.delete("/", (req, res) => {
+    //         res.send("Path delete");
+    //     });
+    // }
 
-    patch() {
-        this.router.patch("/", (req, res) => {
-            res.send("Path update");
-        });
-    }
+    // patch() {
+    //     this.router.patch("/", (req, res) => {
+    //         res.send("Path update");
+    //     });
+    // }
 
 }
 

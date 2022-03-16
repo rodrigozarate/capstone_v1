@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cors = require('cors');
 const { restfulUser } = require("./src/Infrastructure/Controller/restfulApiUser");
 const { restfulSubscription } = require("./src/Infrastructure/Controller/restfullApiSubscription");
 const { restfulPath } = require("./src/Infrastructure/Controller/restfulApiPath");
 const { restfulAdmin } = require("./src/Infrastructure/Controller/restfulApiAdmin");
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
