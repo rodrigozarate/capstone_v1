@@ -4,7 +4,7 @@ const { ControllerService } = require('../../Interface/controllerService');
 const { mysql } = require('../../Infrastructure/Repository/mysql');
 
 class RestfulUser extends ControllerService {
-	// #router = null;
+	router = null;
 	
 	constructor(){
 		super();
@@ -87,7 +87,6 @@ class RestfulUser extends ControllerService {
 
 	delete(){
 		this.router.delete("/",(req, res) => {
-			console.log(req.session.user)
 			
 			const database = mysql.initDatabase();
 			const query = 'DELETE FROM User WHERE id = ?';
