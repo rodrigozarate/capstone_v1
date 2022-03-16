@@ -24,7 +24,7 @@ class RestfulAdmin extends ControllerService {
     }
     
     get() {
-        this.router.get("/", (req, res) => {
+        this.router.post("/", (req, res) => {
             const { email, password } = req.body;
             const database = mysql.initDatabase();
             const query = 'SELECT * FROM Admin WHERE email = ?';

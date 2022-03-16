@@ -23,7 +23,7 @@ class RestfulUser extends ControllerService {
 		this.router = express.Router();
 	}
 	get(){
-	    this.router.get("/",(req, res) => {
+	    this.router.post("/login",(req, res) => {
 
 			// if (req.session.user){
 			// 	res.send({message: "First initialized session please !"});
