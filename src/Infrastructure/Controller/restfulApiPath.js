@@ -1,5 +1,6 @@
 const express = require("express");
 const { ControllerService } = require('../../Interface/controllerService');
+const { mysql } = require('../../Infrastructure/Repository/mysql');
 
 class RestfulPath extends ControllerService {
     router = null;
@@ -21,31 +22,27 @@ class RestfulPath extends ControllerService {
 
     get() {
         this.router.get("/", (req, res) => {
-	    // if (req.session.user){
-	    // res.send({message: "First initialized session please !"});
-	    // }
-	    const { subscription_id } = req.session.user;
-	    const database = mysql.initDatabase();
-	    const query = 'SELECT * FROM SubscriptionRoute WHERE subscription_id = ?';
-	    database.query(query, [subscription_id], (err, result) => {
-			    if (err) {
-				if (err.code) {
-				    res.status(500);
-				    res.send(err);
-				}
-				throw (err);
-			    } else {
-				res.send(result);
-			    }
-			});
-	    database.end();
-
-            res.send("Path");
+            if (!req.session.user){
+                res.send({message: "Init Session First"})
+            }
+            const { subscription_id } = req.session.user;
+            console.log(req.session.user)
+            console.log(subscription_id)
+            const database = mysql.initDatabase();
+            const query = 'SELECT route_id, path FROM SubscriptionRoute JOIN Route ON route_id = Route.id WHERE subscription_id = ?';
+            database.query(query, [subscription_id], (err, result) => {
+                    if (err) {
+                        if (err.code) {
+                            res.status(500);
+                            res.send(err);
+                        }
+                        throw (err);
+                    } else {
+                        res.send(result);
+                    }
+                });
+            database.end();
         });
-
-        // this.router.get("/list", (req, res) => {
-        //     res.send("Path list");
-        // });
     }
 
     // post() {

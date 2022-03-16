@@ -1,6 +1,6 @@
 const { DatabaseService } = require('../../Interface/databaseService.js');
-const mysql = require('mysql');
-const bcrypt = require('bcryptjs');
+const mysql = require('mysql2');
+require('dotenv').config()
 
 class MySQL extends DatabaseService {
 	constructor(){
@@ -8,10 +8,10 @@ class MySQL extends DatabaseService {
 	}
 	initDatabase(){
 		const connection = mysql.createConnection({
-			host: "localhost",
-			user: "alas",
-			password: "alasdbpwd",
-			database:"alasdb"
+			host: process.env.HOST,
+			user: process.env.USER_DATABASE,
+			password: process.env.PASSWORD_DATABASE,
+			database: process.env.DATABASE
 		});
 		connection.connect(err => {
 			if (err)
